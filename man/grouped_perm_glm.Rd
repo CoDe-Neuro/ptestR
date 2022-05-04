@@ -48,7 +48,7 @@ statistic.\cr
 original data among that of permutations.}
 }
 \description{
-\code{perm_test_glm} is a nonparametric test of generalized
+\code{grouped_perm_glm} is a nonparametric test of generalized
 linear models. It assesses the significance of coefficients by
 permutation tests, which calculate the distribution of the test statistic by
 randomly rearranging the observed data.

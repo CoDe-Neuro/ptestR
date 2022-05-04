@@ -2,3 +2,4 @@
 
 export(grouped_perm_binoglm)
 export(grouped_perm_glm)
+export(grouped_perm_glmm)
