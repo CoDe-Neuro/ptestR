@@ -1,6 +1,6 @@
 #' Permutation test for linear mixed-effects models
 #' 
-#'@description \code{grouped_perm_glmm} is a nonparametric test of linear
+#' @description \code{grouped_perm_glmm} is a nonparametric test of linear
 #' mixed-effects models. It assesses the significance of coefficients by
 #' permutation tests, which calculate the distribution of the test statistic by
 #' randomly rearranging the observed data.
@@ -20,16 +20,13 @@
 #' @return It returns a tibble containing the following components:
 #'   \tabular{ll}{\code{term}\tab  The name of the regression term.\cr
 #'   \tab \cr
-#'   \tabular{ll}{\code{effect}\tab  The type of the tested effect of the 
-#'   mixed-effects model.\cr
+#'   \code{effect}\tab  The type of the tested effect of the 
+#'   regression term.\cr
 #'   \tab \cr
 #'   \code{estimate} \tab The estimated value of the regression term.\cr
 #'   \tab \cr
 #'   \code{statistic} \tab The value of a test statistic to use in a hypothesis 
 #'   that the regression term is non-zero.\cr
-#'   \tab \cr
-#'   \code{p.value} \tab The two-sided p-value associated with the observed 
-#'   statistic.\cr
 #'   \tab \cr
 #'   \code{p.perm} \tab The likelihood of observing the test statistic of the 
 #'   original data among that of permutations.}
@@ -37,6 +34,14 @@
 #' @export
 #'
 #' @examples
+#' library(sdamr)
+#' data("anchoring")
+#' grouped_perm_glmm(anchoring,everest_feet ~ anchor+sex + (1|referrer),  
+#' "everest_feet")
+#' grouped_perm_glmm(anchoring,everest_feet ~ anchor+sex + (1|referrer),  
+#' "everest_feet", permNum = 500, seed = 2)
+#' 
+
 grouped_perm_glmm <- function(tbl,
                               formla,
                               var_to_perm,
@@ -55,11 +60,11 @@ grouped_perm_glmm <- function(tbl,
                            permNum,
                            all_of(var_to_perm))
   
-  models <- map(perms$perm,
+  models <- purrr::map(perms$perm,
                 ~ lme4::lmer(formla,
                        data = .))
   
-  tdy_idx <- map_df(models,
+  tdy_idx <- purrr::map_df(models,
                     broom.mixed::tidy,
                     .id = "id")
   
@@ -84,7 +89,6 @@ grouped_perm_glmm <- function(tbl,
                   effect,
                   estimate,
                   statistic,
-                  p.value,
                   p.perm)
   
   return(final)

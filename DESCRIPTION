@@ -16,6 +16,8 @@ Imports:
     modelr,
     purrr,
     tibble,
-    tidyr
+    tidyr,
+    broom.mixed,
+    lme4
 URL: 
 BugReports: 
