@@ -25,7 +25,7 @@
 #'   \tab \cr
 #'   \code{estimate} \tab The estimated value of the regression term.\cr
 #'   \tab \cr
-#'   \code{statistic} \tab The value of a test statistic to use in a hypothesis 
+#'   \code{statistic} \tab The value of a T-statistic to use in a hypothesis 
 #'   that the regression term is non-zero.\cr
 #'   \tab \cr
 #'   \code{p.perm} \tab The likelihood of observing the test statistic of the 
