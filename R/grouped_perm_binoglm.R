@@ -1,7 +1,7 @@
 #' Permutation test for binomial logistic regression
 #'
-#' @description \code{perm_test_binoglm} is a nonparametric test of binomial logistic
-#' regression models. It assesses the significance of coefficients by
+#' @description \code{grouped_perm_binoglm} is a nonparametric test of binomial 
+#' logistic regression models. It assesses the significance of coefficients by
 #' permutation tests, which calculate the distribution of the test statistic by
 #' randomly rearranging the observed data.
 #'
