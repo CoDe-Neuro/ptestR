@@ -1,5 +1,5 @@
 Package: ptestr
-Title: ptestR
+Title: p-testR
 Version: 0.1
 Authors@R: 
     person("Lucas G. S.", "França", , "lucas.franca@kcl.ac.uk", role = c("aut", "cre"),
