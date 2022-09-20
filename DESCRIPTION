@@ -2,11 +2,20 @@ Package: ptestr
 Title: p-testR
 Version: 0.1
 Authors@R: 
-    person("Lucas G. S.", "França", , "lucas.franca@kcl.ac.uk", role = c("aut"),
-           comment = c(ORCID = "0000-0003-0853-1319"))
-    person("Yan", "Ge", , "yan.ge@kcl.ac.uk", role = c("aut"))
-    person("Dafnis", "Batalle", , "dafnis.batalle@kcl.ac.uk", role = c("aut"),
-           comment = c(ORCID = "0000-0003-2097-979X"))
+    c(person(given = "Lucas G. S.",
+             family = "França",
+             role = "aut",
+             email = "lucas.franca@kcl.ac.uk", 
+             comment = "0000-0003-0853-1319"),
+      person(given = "Yan",
+             family = "Ge",
+             role = "aut",
+             email = "yan.ge@kcl.ac.uk"), 
+      person(given = "Dafnis",
+             family = "Batalle",
+             role = "aut",
+             email = "dafnis.batalle@kcl.ac.uk"), 
+             comment = "0000-0003-2097-979X"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
