@@ -2,7 +2,7 @@ Package: ptestr
 Title: p-testR
 Version: 0.1
 Authors@R: 
-    person("Lucas G. S.", "França", , "lucas.franca@kcl.ac.uk", role = c("aut", "cre"),
+    person("Lucas G. S.", "França", , "lucas.franca@kcl.ac.uk", role = c("aut"),
            comment = c(ORCID = "0000-0003-0853-1319"))
     person("Yan", "Ge", , "yan.ge@kcl.ac.uk", role = c("aut"))
     person("Dafnis", "Batalle", , "dafnis.batalle@kcl.ac.uk", role = c("aut"),
