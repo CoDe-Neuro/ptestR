@@ -1,0 +1,270 @@
+---
+title: "Grouped analysis across features"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Grouped analysis across features}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>"
+)
+library(ptestR)
+library(dplyr)
+library(tidyr)
+library(purrr)
+```
+
+## The real use case
+
+In neuroimaging and multivariate biomedical research, it is common to run the
+same model across many features simultaneously — brain states, EEG channels,
+ROIs, metabolites. ptestR is designed for exactly this pattern.
+
+This vignette demonstrates the `nest()` + `map()` workflow used in França et
+al. (2024), where `grouped_perm_glmm()` was applied with 10 000 permutations
+across dynamic functional connectivity features in 390 neonates from the
+developing Human Connectome Project (dHCP).
+
+---
+
+## Simulated multi-feature dataset
+
+We simulate a dataset resembling the dHCP structure: multiple subjects, each
+with measurements across several brain states, and a set of clinical covariates.
+
+```{r simulate}
+set.seed(42)
+
+n_subj   <- 40
+n_states <- 6
+features <- c("dwell_time", "transition_rate", "mean_amplitude")
+
+covariates <- data.frame(
+  subject        = seq_len(n_subj),
+  PMA            = rnorm(n_subj, mean = 40, sd = 3),   # postmenstrual age
+  PND            = rnorm(n_subj, mean = 10, sd = 5),   # postnatal days
+  sex            = sample(c("M", "F"), n_subj, replace = TRUE),
+  motion_outliers = runif(n_subj, 0, 0.15),
+  group          = sample(c("term", "preterm"), n_subj, replace = TRUE)
+)
+
+# Expand to one row per subject × state × feature
+df <- expand.grid(
+  subject = seq_len(n_subj),
+  state   = paste0("State_", seq_len(n_states)),
+  feature = features,
+  stringsAsFactors = FALSE
+) |>
+  left_join(covariates, by = "subject") |>
+  mutate(
+    value = rnorm(n()) +
+            0.4 * (PMA - 40) * (feature == "dwell_time") +
+            0.3 * (group == "preterm") * (feature == "mean_amplitude") +
+            rnorm(n_subj, sd = 0.8)[subject]
+  )
+
+glimpse(df)
+```
+
+---
+
+## Running across states and features
+
+The pattern is: `group_by()` the grouping variables → `nest()` the data →
+`map()` the permutation function → `unnest()` the results.
+
+```{r grouped-glmm}
+results <- df |>
+  group_by(state, feature) |>
+  nest() |>
+  mutate(
+    perm = map(data, \(d) grouped_perm_glmm(
+      tbl         = d,
+      formla      = value ~ PMA + PND + sex + motion_outliers + (1 | subject),
+      var_to_perm = "value",
+      permNum     = 499,   # use 9999 for publication
+      seed        = 42
+    ))
+  ) |>
+  unnest(perm) |>
+  select(-data)
+
+results
+```
+
+---
+
+## Filtering to the terms of interest
+
+The result contains all fixed-effect terms. In practice you will filter to the
+predictors of interest — here, postmenstrual age:
+
+```{r filter-pma}
+pma_results <- results |>
+  filter(term == "PMA") |>
+  arrange(p.perm)
+
+pma_results
+```
+
+---
+
+## FDR correction
+
+With `n_states × n_features` models, apply FDR correction across the full
+result table for each term:
+
+```{r fdr}
+pma_results <- pma_results |>
+  mutate(p.fdr = p.adjust(p.perm, method = "fdr"))
+
+pma_results |>
+  select(state, feature, estimate, statistic, p.perm, p.fdr) |>
+  arrange(p.fdr)
+```
+
+This matches the analysis strategy in França et al. (2024): permutation
+p-values computed per model, FDR correction at α = 5% across the full
+feature set.
+
+---
+
+## Handling `p.perm = 0`
+
+When no permuted statistic is as extreme as the observed one, `p.perm = 0`.
+This is not a true zero — it is an upper bound. Report as `p < 1/permNum`:
+
+```{r zero-perm}
+pma_results |>
+  mutate(
+    p.perm.label = ifelse(
+      p.perm == 0,
+      paste0("p < ", round(1 / 499, 4)),
+      paste0("p = ", round(p.perm, 4))
+    )
+  ) |>
+  select(state, feature, term, p.perm.label) |>
+  filter(p.perm == 0)
+```
+
+With `permNum = 9999` (recommended for publication), the bound becomes
+`p < 0.0001`.
+
+---
+
+## Plotting the results
+
+A simple heatmap of p-values across states and features:
+
+```{r heatmap, fig.width = 6, fig.height = 3.5}
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  library(ggplot2)
+
+  pma_results |>
+    mutate(
+      sig       = p.fdr < 0.05,
+      log10p    = -log10(pmax(p.perm, 1 / 499))
+    ) |>
+    ggplot(aes(x = state, y = feature, fill = log10p)) +
+    geom_tile(colour = "white", linewidth = 0.5) +
+    geom_text(aes(label = ifelse(sig, "*", "")),
+              size = 5, colour = "white", vjust = 0.8) +
+    scale_fill_gradient(
+      low  = "#F1E2D1",
+      high = "#810B38",
+      name = expression(-log[10](p[perm]))
+    ) +
+    labs(
+      title = "Permutation p-values: PMA effect",
+      x     = "Brain state",
+      y     = "Feature",
+      caption = "* FDR < 5%"
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(axis.text.x = element_text(angle = 30, hjust = 1))
+}
+```
+
+---
+
+## Using `grouped_perm_glm()` instead
+
+The same workflow applies for GLMs without random effects — just swap the
+function and drop the random-effects term from the formula:
+
+```{r grouped-glm}
+glm_results <- df |>
+  group_by(state, feature) |>
+  nest() |>
+  mutate(
+    perm = map(data, \(d) grouped_perm_glm(
+      tbl         = d,
+      formla      = value ~ PMA + PND + sex + motion_outliers,
+      var_to_perm = "value",
+      permNum     = 299,
+      seed        = 42
+    ))
+  ) |>
+  unnest(perm) |>
+  select(-data)
+
+glm_results |>
+  filter(term == "PMA") |>
+  arrange(p.perm)
+```
+
+---
+
+## Tips for large-scale analyses
+
+**Increase `permNum` for publication.** 499 is used here for speed; use
+9 999 or more for final results. At 10 000 permutations, `p.perm = 0` reports
+as `p < 0.0001`.
+
+**Parallelise across features, not within.** Each `grouped_perm_glmm()` call
+is single-threaded. For large feature sets, use `furrr::future_map()` as a
+drop-in replacement for `purrr::map()`:
+
+```{r parallel, eval = FALSE}
+library(furrr)
+plan(multisession, workers = 4)
+
+results <- df |>
+  group_by(state, feature) |>
+  nest() |>
+  mutate(
+    perm = future_map(data, \(d) grouped_perm_glmm(
+      d,
+      formla      = value ~ PMA + PND + sex + motion_outliers + (1 | subject),
+      var_to_perm = "value",
+      permNum     = 9999,
+      seed        = 42
+    ), .options = furrr_options(seed = TRUE))
+  ) |>
+  unnest(perm) |>
+  select(-data)
+```
+
+**Save intermediate results.** For very large jobs, save after each feature
+group and resume if interrupted.
+
+---
+
+## Reference
+
+> França LGS, Ciarrusta J, Gale-Grant O, et al. (2024). Neonatal brain
+> dynamic functional connectivity in term and preterm infants and its
+> association with early childhood neurodevelopment. *Nature Communications*,
+> 15, 16. <https://doi.org/10.1038/s41467-023-44050-z>
+
+---
+
+## Further reading
+
+- `vignette("getting-started")` — core concepts and `grouped_perm_glm()`
+- `vignette("mixed-effects-models")` — `grouped_perm_glmm()` in depth
+- `?grouped_perm_glmm`, `?grouped_perm_glm`

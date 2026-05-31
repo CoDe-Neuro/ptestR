@@ -103,9 +103,12 @@ home:
 
 navbar:
   structure:
-    left:  [reference, news]
+    left:  [intro, reference, articles, news]
     right: [search, github]
   components:
+    intro:
+      text: Get started
+      href: articles/getting-started.html
     github:
       icon: fab fa-github
       href: https://github.com/CoDe-Neuro/ptestR
@@ -123,6 +126,14 @@ reference:
   desc: "Package-level documentation."
   contents:
   - ptestR-package
+
+articles:
+- title: "Vignettes"
+  navbar: ~
+  contents:
+  - getting-started
+  - mixed-effects-models
+  - grouped-analysis
 
 authors:
   Lucas França:

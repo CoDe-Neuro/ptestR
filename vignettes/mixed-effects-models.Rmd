@@ -1,0 +1,177 @@
+---
+title: "Permutation tests for mixed-effects models"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Permutation tests for mixed-effects models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>"
+)
+library(ptestR)
+```
+
+## Why `lmer` doesn't give p-values
+
+`lme4::lmer()` deliberately omits p-values from its output. The reason is
+principled: in mixed-effects models, the degrees of freedom for fixed effects
+are not well-defined. Approximations exist (Satterthwaite, Kenward-Roger), but
+they rely on assumptions about the variance-covariance structure that may not
+hold in small or unbalanced datasets.
+
+`grouped_perm_glmm()` sidesteps this entirely by computing `p.perm` — a fully
+nonparametric p-value based on permuting the outcome variable and refitting the
+model. No degree-of-freedom approximation is needed.
+
+---
+
+## When to use `grouped_perm_glmm()`
+
+Use `grouped_perm_glmm()` when your data have:
+
+- **Repeated measures** — the same subject observed at multiple time points or
+  conditions
+- **Hierarchical structure** — participants nested within sites, scans nested
+  within participants, and so on
+- **Small samples** — fewer than ~50 subjects, where asymptotic approximations
+  are unreliable
+
+---
+
+## A worked example
+
+We simulate a repeated-measures dataset with 20 subjects, each observed 4
+times. The outcome depends on a continuous fixed effect and a binary group
+variable, with random intercepts per subject.
+
+```{r simulate}
+set.seed(42)
+n_subj  <- 20
+n_obs   <- 4
+
+df <- data.frame(
+  subject = rep(seq_len(n_subj), each = n_obs),
+  time    = rep(seq_len(n_obs), times = n_subj),
+  group   = rep(c("control", "case"), each = n_subj * n_obs / 2),
+  y       = NA_real_
+)
+
+# Random intercepts + fixed effects
+random_int  <- rep(rnorm(n_subj, sd = 1.2), each = n_obs)
+df$y <- 0.8 * (df$group == "case") +
+        0.3 * df$time +
+        random_int +
+        rnorm(nrow(df), sd = 0.8)
+
+head(df, 8)
+```
+
+Fit the permutation GLMM with 999 permutations:
+
+```{r glmm}
+res <- grouped_perm_glmm(
+  tbl         = df,
+  formla      = y ~ group + time + (1 | subject),
+  var_to_perm = "y",
+  permNum     = 999,
+  seed        = 42
+)
+res
+```
+
+The result contains only fixed-effect rows (random-effect parameters are
+filtered out). Columns are the same as `grouped_perm_glm()` except `p.value`
+is absent and `effect` is always `"fixed"`.
+
+---
+
+## Comparing to `lme4` output directly
+
+It is instructive to compare the permutation p-value against `lmerTest`'s
+Satterthwaite approximation:
+
+```{r compare, eval = requireNamespace("lmerTest", quietly = TRUE)}
+library(lmerTest)
+fit <- lmer(y ~ group + time + (1 | subject), data = df)
+summary(fit)$coefficients
+```
+
+The t-statistics will match exactly — ptestR fits the same model. Only the
+p-values differ: `p.perm` uses the empirical null distribution, while
+`lmerTest` uses an approximate t-distribution with estimated degrees of
+freedom.
+
+---
+
+## Random effects structure
+
+ptestR permutes only the outcome variable. The random-effects structure
+(grouping factors, random slopes) is held fixed. This means:
+
+- Permutations are exchangeable at the observation level
+- The between-subject variance is preserved across permutations
+- The test is valid under exchangeability of residuals, which is a weaker
+  assumption than normality
+
+For more complex designs (e.g. cross-classified random effects, or permutation
+within clusters), manual permutation strategies may be needed — ptestR does not
+currently support restricted permutation schemes.
+
+---
+
+## Random slopes
+
+The formula interface is passed directly to `lme4::lmer()`, so random slopes
+work as expected:
+
+```{r random-slopes}
+res_slopes <- grouped_perm_glmm(
+  tbl         = df,
+  formla      = y ~ group + time + (1 + time | subject),
+  var_to_perm = "y",
+  permNum     = 499,
+  seed        = 42
+)
+res_slopes
+```
+
+Note that more complex random-effects structures increase computation time
+proportionally with `permNum`.
+
+---
+
+## Convergence warnings
+
+With small datasets and complex random-effects structures, some permuted fits
+may produce convergence warnings from `lme4`. These are expected and do not
+affect the validity of `p.perm` — the permuted t-statistics from borderline
+fits still contribute to the null distribution. To suppress these warnings
+during bulk permutation runs:
+
+```{r suppress, eval = FALSE}
+suppressWarnings(
+  grouped_perm_glmm(df, y ~ group + (1 | subject), "y", permNum = 999)
+)
+```
+
+---
+
+## Computational cost
+
+Each permutation refits the full model. For a dataset of 80 observations with
+a random intercept, 1 000 permutations typically takes a few seconds. For
+10 000 permutations or larger datasets, consider parallelising across features
+rather than within a single call — see `vignette("grouped-analysis")`.
+
+---
+
+## Further reading
+
+- `vignette("getting-started")` — `grouped_perm_glm()` and core concepts
+- `vignette("grouped-analysis")` — applying permutation tests across many
+  features using `dplyr::group_by()` and `purrr::map()`
+- `?grouped_perm_glmm`
