@@ -6,3 +6,4 @@
 ^pkgdown$
 ^\.github$
 ^grouped_perm_glm\.R$
+^NEWS\.md$
