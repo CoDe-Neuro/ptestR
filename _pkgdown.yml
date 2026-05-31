@@ -42,8 +42,10 @@ template:
         .navbar-nav .nav-link:hover { opacity: 0.8; }
         .navbar-nav .nav-link.active {
           color: #F1E2D1 !important;
-          border-bottom: 2px solid #DCC3AA;
+          border-bottom: 3px solid #F1E2D1;
+          font-weight: 700;
         }
+        .navbar small.nav-text { color: #DCC3AA !important; }
         .navbar-brand img { height: 40px; width: auto; }
         .page-header { border-bottom: none !important; }
         .sidebar .nav-link,
