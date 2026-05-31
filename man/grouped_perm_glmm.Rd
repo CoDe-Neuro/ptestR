@@ -7,49 +7,48 @@
 grouped_perm_glmm(tbl, formla, var_to_perm, permNum = 1000, seed = 42)
 }
 \arguments{
-\item{tbl}{A data frame or a data frame extension (e.g. a tibble) containing
-the variables in the model.}
+\item{tbl}{A data frame or tibble containing all model variables.}
 
-\item{formla}{An object of class "formula" containing a symbolic description
-of the linear mixed-effects model to be fitted. The object include both the
-fixed-effects and random-effects part of the model.See
-\code{\link[lme4]{lmer}} for more details.}
+\item{formla}{A \link{formula} with both fixed- and random-effects parts;
+passed directly to \code{\link[lme4:lmer]{lme4::lmer()}}.}
 
-\item{var_to_perm}{The columns of variables to permute.}
+\item{var_to_perm}{Character. Name of the column to permute (typically
+the outcome variable).}
 
-\item{permNum}{The number of permutations to generate.}
+\item{permNum}{Integer. Number of permutations to generate. Default \code{1000}.}
 
-\item{seed}{A single value interpreted as an integer for initializing a
-random permutation generator. See \code{\link[base]{set.seed}} for more
-details.}
+\item{seed}{Integer. Random seed for reproducibility; passed to
+\code{\link[base:Random]{base::set.seed()}}. Default \code{42}.}
 }
 \value{
-It returns a tibble containing the following components:
-\tabular{ll}{\code{term}\tab  The name of the regression term.\cr
-\tab \cr
-\code{effect}\tab  The type of the tested effect of the
-regression term.\cr
-\tab \cr
-\code{estimate} \tab The estimated value of the regression term.\cr
-\tab \cr
-\code{statistic} \tab The value of a T-statistic to use in a hypothesis
-that the regression term is non-zero.\cr
-\tab \cr
-\code{p.perm} \tab The likelihood of observing the test statistic of the
-original data among that of permutations.}
+A tibble with one row per fixed-effect term and columns:
+\describe{
+\item{\code{term}}{Name of the regression term.}
+\item{\code{effect}}{Always \code{"fixed"} (random-parameter rows are dropped).}
+\item{\code{estimate}}{Estimated coefficient.}
+\item{\code{statistic}}{Observed t-statistic.}
+\item{\code{p.perm}}{Permutation p-value: proportion of permuted |statistics|
+>= |observed statistic|. Replaces the conventional \code{p.value} because
+\code{lme4::lmer} does not compute degrees of freedom or p-values by
+default. A value of \code{0} means no permuted statistic was as extreme;
+report as \code{p < 1/permNum}.}
+}
 }
 \description{
-\code{grouped_perm_glmm} is a nonparametric test of linear
-mixed-effects models. It assesses the significance of coefficients by
-permutation tests, which calculate the distribution of the test statistic by
-randomly rearranging the observed data.
+\code{grouped_perm_glmm} is a nonparametric test for linear
+mixed-effects models. It assesses the significance of fixed-effect
+coefficients by permutation, computing the null distribution of the
+test statistic by randomly rearranging the outcome variable while
+preserving the random-effects structure.
 }
 \examples{
+\dontrun{
 library(sdamr)
 data("anchoring")
-grouped_perm_glmm(anchoring,everest_feet ~ anchor+sex + (1|referrer),  
-"everest_feet")
-grouped_perm_glmm(anchoring,everest_feet ~ anchor+sex + (1|referrer),  
-"everest_feet", permNum = 500, seed = 2)
-
+grouped_perm_glmm(
+  anchoring,
+  everest_feet ~ anchor + sex + (1 | referrer),
+  "everest_feet"
+)
+}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/grouped_perm_glm.R
 \name{grouped_perm_glm}
 \alias{grouped_perm_glm}
-\title{Permutation test for generalized linear models}
+\title{Permutation test for generalised linear models}
 \usage{
 grouped_perm_glm(
   tbl,
@@ -14,57 +14,44 @@ grouped_perm_glm(
 )
 }
 \arguments{
-\item{tbl}{A data frame or a data frame extension (e.g. a tibble) containing
-the variables in the model.}
+\item{tbl}{A data frame or tibble containing all model variables.}
 
-\item{formla}{An object of class "formula" containing a symbolic description
-of the regression model to be fitted. See \code{\link[stats]{formula}} for
-more details.}
+\item{formla}{A \link{formula} describing the regression model to fit;
+passed directly to \code{\link[stats:glm]{stats::glm()}}.}
 
-\item{var_to_perm}{The columns of variables to permute.}
+\item{var_to_perm}{Character. Name of the column to permute (typically
+the outcome variable).}
 
-\item{family}{A description  of the error distribution and link function to
-be used in \code{glm}. See \code{\link[stats]{family}} for more details.}
+\item{family}{A description of the error distribution and link function;
+passed to \code{\link[stats:glm]{stats::glm()}}. Defaults to \code{\link[stats:family]{stats::gaussian()}}.}
 
-\item{permNum}{The number of permutations to generate.}
+\item{permNum}{Integer. Number of permutations to generate. Default \code{1000}.}
 
-\item{seed}{A single value interpreted as an integer for initializing a
-random permutation generator. See \code{\link[base]{set.seed}} for more
-details.}
+\item{seed}{Integer. Random seed for reproducibility; passed to
+\code{\link[base:Random]{base::set.seed()}}. Default \code{42}.}
 }
 \value{
-It returns a tibble containing the following components:
-\tabular{ll}{\code{term}\tab  The name of the regression term.\cr
-\tab \cr
-\code{estimate} \tab The estimated value of the regression term.\cr
-\tab \cr
-\code{statistic} \tab The value of a test statistic to use in a hypothesis
-that the regression term is non-zero.\cr
-\tab \cr
-\code{p.value} \tab The two-sided p-value associated with the observed
-statistic.\cr
-\tab \cr
-\code{p.perm} \tab The likelihood of observing the test statistic of the
-original data among that of permutations.}
+A tibble with one row per model term and columns:
+\describe{
+\item{\code{term}}{Name of the regression term.}
+\item{\code{estimate}}{Estimated coefficient.}
+\item{\code{statistic}}{Observed t-statistic.}
+\item{\code{p.value}}{Asymptotic two-sided p-value from the fitted model.}
+\item{\code{p.perm}}{Permutation p-value: proportion of permuted |statistics|
+>= |observed statistic|. A value of \code{0} means no permuted statistic
+was as extreme; report as \code{p < 1/permNum}.}
+}
 }
 \description{
-\code{grouped_perm_glm} is a nonparametric test of generalized
+\code{grouped_perm_glm} is a nonparametric test for generalised
 linear models. It assesses the significance of coefficients by
-permutation tests, which calculate the distribution of the test statistic by
-randomly rearranging the observed data.
+permutation, computing the distribution of the test statistic by
+randomly rearranging the outcome variable.
 }
 \examples{
-counts <- sample(1:100, 9, replace=TRUE)
-outcomes <- c(18,17,15,20,10,20,25,13,12)
-treatment <- gl(3,3)
+counts    <- sample(1:100, 9, replace = TRUE)
+outcomes  <- c(18, 17, 15, 20, 10, 20, 25, 13, 12)
+treatment <- gl(3, 3)
 TBL <- data.frame(counts, outcomes, treatment)
 grouped_perm_glm(TBL, outcomes ~ counts + treatment, "outcomes")
-
-counts <- sample(1:100, 9, replace=TRUE)
-outcomes <- gl(2,1,3)
-treatment <- gl(3,3)
-TBL <- data.frame(counts, outcomes, treatment)
-grouped_perm_glm(TBL, outcomes ~ counts + treatment, "outcomes",
-family = binomial)
-
 }

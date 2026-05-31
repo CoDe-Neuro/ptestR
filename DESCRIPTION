@@ -1,34 +1,46 @@
-Package: ptestr
-Title: p-testR
-Version: 0.1
-Authors@R: 
+Package: ptestR
+Title: Permutation-Based Significance Testing for Regression Models
+Version: 0.1.1
+Authors@R:
     c(person(given = "Lucas G. S.",
              family = "França",
              role = c("aut", "cre"),
-             email = "lucas.franca@kcl.ac.uk", 
-             comment = "0000-0003-0853-1319"),
+             email = "lucas.franca@kcl.ac.uk",
+             comment = c(ORCID = "0000-0003-0853-1319")),
       person(given = "Yan",
              family = "Ge",
              role = "aut",
-             email = "yan.ge@kcl.ac.uk"), 
+             email = "yan.ge@kcl.ac.uk"),
       person(given = "Dafnis",
              family = "Batalle",
              role = "aut",
-             email = "dafnis.batalle@kcl.ac.uk", 
-             comment = "0000-0003-2097-979X"))
-Description: What the package does (one paragraph).
+             email = "dafnis.batalle@kcl.ac.uk",
+             comment = c(ORCID = "0000-0003-2097-979X")))
+Description: Wraps glm(), lme4::lmer(), and binomial glm() with a
+    permutation loop to compute nonparametric p-values. For each model,
+    ptestR generates a null distribution of the test statistic by randomly
+    rearranging the outcome variable, then computes p.perm as the proportion
+    of permuted statistics at least as extreme as the observed one. This
+    approach requires far fewer distributional assumptions than standard
+    Wald or likelihood-ratio tests, making it well-suited to neuroimaging,
+    EEG, and other biomedical datasets with repeated measures and small
+    samples.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-Imports: 
+RoxygenNote: 7.3.2
+Depends:
+    R (>= 4.0.0)
+Imports:
     broom,
+    broom.mixed,
     dplyr,
+    lme4,
     modelr,
     purrr,
-    tibble,
-    tidyr,
-    broom.mixed,
-    lme4
-URL: 
-BugReports: 
+    tidyr
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/CoDe-Neuro/ptestR
+BugReports: https://github.com/CoDe-Neuro/ptestR/issues

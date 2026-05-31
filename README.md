@@ -6,6 +6,7 @@ An R package providing **permutation-based significance testing** for generalise
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE.md)
 [![R](https://img.shields.io/badge/R-≥4.0-276DC3.svg)](https://www.r-project.org/)
 [![Version](https://img.shields.io/badge/version-0.1.1-lightgrey)](https://github.com/CoDe-Neuro/ptestR/releases/tag/0.1.1)
+[![R CMD CHECK](https://github.com/CoDe-Neuro/ptestR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CoDe-Neuro/ptestR/actions/workflows/R-CMD-check.yaml)
 
 ---
 

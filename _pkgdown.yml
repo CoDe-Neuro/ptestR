@@ -1,0 +1,94 @@
+url: https://code-neuro.github.io/ptestR
+
+template:
+  bootstrap: 5
+  bslib:
+    # ── Colours ──────────────────────────────────────────────────────────────
+    bg:              "#F5F5F5"
+    fg:              "#1A1A2E"
+    primary:         "#16213E"
+    secondary:       "#0F3460"
+    success:         "#4CAF50"
+    info:            "#E8EAF6"
+    warning:         "#E07A20"
+    danger:          "#C0392B"
+
+    # ── Fonts ─────────────────────────────────────────────────────────────────
+    base_font:       {google: "Afacad"}
+    heading_font:    {google: "Livvic"}
+    code_font:       {google: "JetBrains Mono"}
+
+    # ── Cards ──────────────────────────────────────────────────────────────────
+    card-bg:         "#FFFFFF"
+    card-border-color: "#DEE2E6"
+    card-border-radius: "0.75rem"
+
+    # ── Code blocks ───────────────────────────────────────────────────────────
+    pre-bg:          "#1A1A2E"
+    pre-color:       "#F5F5F5"
+
+  includes:
+    in_header: |
+      <style>
+        .navbar { background-color: #1A1A2E !important; border-bottom: 2px solid #0F3460; }
+        .navbar .navbar-brand, .navbar-nav .nav-link { color: #F5F5F5 !important; }
+        .navbar-nav .nav-link:hover { opacity: 0.8; }
+        .navbar-nav .nav-link.active { border-bottom: 2px solid #E07A20; }
+        .page-header { border-bottom: none !important; }
+        .sidebar .nav-link, #toc a { color: #1A1A2E !important; }
+        .sidebar .nav-link.active, #toc .nav-link.active {
+          color: #0F3460 !important; border-left: 2px solid #E07A20; font-weight: 600;
+        }
+        .reference-index h2 { color: #E07A20; font-size: 0.8rem;
+          text-transform: uppercase; letter-spacing: 0.08em; }
+        code { color: #0F3460; background: #E8EAF6;
+          border-radius: 4px; padding: 0.1em 0.35em; }
+        .footer { background: #1A1A2E; color: #94A3B8; padding: 1.5rem 0; }
+        .footer a { color: #C8DFF5; }
+      </style>
+
+home:
+  title: "ptestR — Permutation Tests for R"
+  description: >
+    An R package providing permutation-based significance testing for
+    generalised linear models, linear mixed-effects models, and binomial
+    logistic regression. Developed at King's College London.
+
+navbar:
+  structure:
+    left:  [reference, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/CoDe-Neuro/ptestR
+      aria-label: GitHub
+
+reference:
+- title: "Permutation tests"
+  desc: "Nonparametric significance testing for regression models."
+  contents:
+  - grouped_perm_glm
+  - grouped_perm_glmm
+  - grouped_perm_binoglm
+
+- title: "Package"
+  desc: "Package-level documentation."
+  contents:
+  - ptestR-package
+
+authors:
+  Lucas França:
+    href: https://orcid.org/0000-0003-0853-1319
+  Dafnis Batalle:
+    href: https://orcid.org/0000-0003-2097-979X
+
+footer:
+  structure:
+    left: [package, developed_by]
+    right: [built_with]
+  components:
+    package: >
+      **ptestR** — CoDe-Neuro Lab, King's College London.
+    developed_by: >
+      Lucas França, Yan Ge & Dafnis Batalle.
