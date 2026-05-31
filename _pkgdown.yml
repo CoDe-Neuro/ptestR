@@ -47,6 +47,8 @@ template:
         .footer a { color: #C8DFF5; }
       </style>
 
+logo: man/figures/logo.svg
+
 home:
   title: "ptestR — Permutation Tests for R"
   description: >

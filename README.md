@@ -1,4 +1,4 @@
-# 🧪 ptestR
+# 🧪 ptestR <img src="man/figures/logo.svg" align="right" height="140"/>
 
 An R package providing **permutation-based significance testing** for generalised linear models, linear mixed-effects models, and binomial logistic regression. Designed for small or non-normally distributed neuroscience datasets where standard asymptotic p-values are unreliable.
 
