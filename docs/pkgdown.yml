@@ -1,8 +1,0 @@
-pandoc: 3.9.0.2
-pkgdown: 2.1.1
-pkgdown_sha: ~
-articles: {}
-last_built: 2026-05-31T13:07Z
-urls:
-  reference: https://code-neuro.github.io/ptestR/reference
-  article: https://code-neuro.github.io/ptestR/articles
