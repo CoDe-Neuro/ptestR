@@ -1,3 +1,11 @@
+# ptestR (development version)
+
+* Fixed the package-name wordmark rendering off-centre in some viewers;
+  it's now rendered as vector artwork rather than live text.
+* Fixed the hex sticker border being cropped at the image edges by adding
+  canvas margin around the hex.
+* Regenerated favicons from the corrected logo.
+
 # ptestR 0.1.1
 
 * Restructured package for CRAN-style hygiene: proper `DESCRIPTION`, `URL`, `BugReports`.
