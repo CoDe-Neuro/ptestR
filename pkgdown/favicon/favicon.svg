@@ -1,5 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="181" height="209" viewBox="0 0 680 785" role="img"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><title>ptestR hex sticker</title><desc>Hex sticker for ptestR R package — permutation-based significance testing</desc><defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="220" viewBox="0 0 720 825" role="img"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><title>ptestR hex sticker</title><desc>Hex sticker for ptestR R package — permutation-based significance testing</desc><defs>
     <clipPath id="hc_v2">
       <polygon points="340,0 680,196 680,589 340,785 0,589 0,196"></polygon>
     </clipPath>
-  </defs><polygon points="340,0 680,196 680,589 340,785 0,589 0,196" fill="#F1E2D1"></polygon><polygon points="340,22 658,208 658,577 340,763 22,577 22,208" fill="none" stroke="#DCC3AA" stroke-width="16"></polygon><path d="M100,480 C130,478 160,460 200,400 C230,355 255,305 290,290 C310,283 330,288 340,290 C350,292 360,285 380,278 C415,262 445,285 480,330 C510,370 545,420 575,458 C600,486 630,490 650,488" fill="none" stroke="#DCC3AA" stroke-width="5.5" stroke-linecap="round" clip-path="url(#hc_v2)"></path><path d="M430,490 C430,490 445,468 462,440 C478,414 500,378 520,350 C540,324 562,300 580,285 C600,270 625,268 648,270 L648,490 Z" fill="#810B38" opacity="0.18" clip-path="url(#hc_v2)"></path><line x1="430" y1="265" x2="430" y2="490" stroke="#541A1A" stroke-width="4.5" stroke-linecap="round" opacity="0.85" clip-path="url(#hc_v2)"></line><path d="M120,490 C150,488 180,472 220,430 C255,393 285,340 310,310 C323,295 333,286 340,284 C347,282 358,290 372,305 C396,330 422,370 450,410 C475,445 510,474 545,484 C575,490 620,490 650,490" fill="none" stroke="#810B38" stroke-width="7" stroke-linecap="round" clip-path="url(#hc_v2)"></path><line x1="430" y1="305" x2="530" y2="258" stroke="#541A1A" stroke-width="2.5" stroke-linecap="round" opacity="0.6"></line><circle cx="430" cy="305" r="7" fill="#810B38" opacity="0.9"></circle><text x="537" y="252" font-family="'Georgia', serif" font-size="34" font-weight="700" fill="#541A1A" opacity="0.75" clip-path="url(#hc_v2)">p.perm</text><text x="340" y="620" text-anchor="middle" font-family="'Georgia', serif" font-size="88" font-weight="700" fill="#541A1A" letter-spacing="1" clip-path="url(#hc_v2)">ptest<tspan fill="#810B38">R</tspan></text><polygon points="340,0 680,196 680,589 340,785 0,589 0,196" fill="none" stroke="#810B38" stroke-width="10"></polygon><polygon points="340,30 650,210 650,575 340,755 30,575 30,210" fill="none" stroke="#541A1A" stroke-width="2" opacity="0.2"></polygon></svg>
+  </defs><g transform="translate(20,20)">
+
+  <polygon points="340,0 680,196 680,589 340,785 0,589 0,196" fill="#F1E2D1"></polygon>
+  <polygon points="340,22 658,208 658,577 340,763 22,577 22,208" fill="none" stroke="#DCC3AA" stroke-width="16"></polygon>
+
+  <!-- Null distribution — muted tan -->
+  <path d="M100,480 C130,478 160,460 200,400 C230,355 255,305 290,290 C310,283 330,288 340,290 C350,292 360,285 380,278 C415,262 445,285 480,330 C510,370 545,420 575,458 C600,486 630,490 650,488" fill="none" stroke="#DCC3AA" stroke-width="5.5" stroke-linecap="round" clip-path="url(#hc_v2)"></path>
+
+  <!-- Shaded tail -->
+  <path d="M430,490 C430,490 445,468 462,440 C478,414 500,378 520,350 C540,324 562,300 580,285 C600,270 625,268 648,270 L648,490 Z" fill="#810B38" opacity="0.18" clip-path="url(#hc_v2)"></path>
+
+  <!-- Observed statistic line -->
+  <line x1="430" y1="265" x2="430" y2="490" stroke="#541A1A" stroke-width="4.5" stroke-linecap="round" opacity="0.85" clip-path="url(#hc_v2)"></line>
+
+  <!-- Fitted distribution — burgundy -->
+  <path d="M120,490 C150,488 180,472 220,430 C255,393 285,340 310,310 C323,295 333,286 340,284 C347,282 358,290 372,305 C396,330 422,370 450,410 C475,445 510,474 545,484 C575,490 620,490 650,490" fill="none" stroke="#810B38" stroke-width="7" stroke-linecap="round" clip-path="url(#hc_v2)"></path>
+
+  <!-- p.perm dot + line -->
+  <line x1="430" y1="305" x2="530" y2="258" stroke="#541A1A" stroke-width="2.5" stroke-linecap="round" opacity="0.6"></line>
+  <circle cx="430" cy="305" r="7" fill="#810B38" opacity="0.9"></circle>
+  <text x="537" y="252" font-family="'Georgia', serif" font-size="34" font-weight="700" fill="#541A1A" opacity="0.75" clip-path="url(#hc_v2)">p.perm</text>
+
+  <!-- Converted to vector paths (DejaVu Serif Bold outlines, extracted via
+       fontTools) instead of a live <text> element. Same cairosvg
+       text-anchor="middle" multi-tspan bug found in hypnoR/axR/stateR:
+       measured centre was x=420.5 instead of x=340. It was clipped so it
+       didn't escape the hex, but sat visibly off-centre, crowded against
+       the edge. -->
+  <g>
+    <path transform="translate(176.754,620) scale(0.042969,-0.042969)" d="M553 584V479Q553 293 600.5 210.0Q648 127 754 127Q863 127 907.5 215.0Q952 303 952 532Q952 761 907.5 848.5Q863 936 754 936Q648 936 600.5 853.0Q553 770 553 584ZM199 942H47V1063H553V928Q598 1011 674.0 1051.5Q750 1092 862 1092Q1089 1092 1219.5 942.5Q1350 793 1350 532Q1350 271 1219.5 121.0Q1089 -29 862 -29Q750 -29 674.0 11.5Q598 52 553 135V-305H717V-426H47V-305H199Z" fill="#541A1A"></path>
+    <path transform="translate(239.285,620) scale(0.042969,-0.042969)" d="M203 942H49V1063H203V1393H557V1063H852V942H557V291Q557 152 579.0 118.0Q601 84 659 84Q723 84 754.0 127.0Q785 170 787 260H936Q927 100 848.5 35.5Q770 -29 578 -29Q359 -29 281.0 39.5Q203 108 203 291Z" fill="#541A1A"></path>
+    <path transform="translate(280.934,620) scale(0.042969,-0.042969)" d="M821 600Q821 810 782.0 894.5Q743 979 649 979Q558 979 518.5 896.0Q479 813 479 618V600ZM1210 481H479V473Q479 267 541.0 175.5Q603 84 741 84Q856 84 927.0 145.0Q998 206 1018 322H1184Q1141 141 1013.0 56.0Q885 -29 655 -29Q379 -29 231.5 116.5Q84 262 84 532Q84 796 235.0 944.0Q386 1092 655 1092Q919 1092 1060.0 936.5Q1201 781 1210 481Z" fill="#541A1A"></path>
+    <path transform="translate(337.922,620) scale(0.042969,-0.042969)" d="M96 31V328H209Q223 209 298.0 146.5Q373 84 502 84Q610 84 667.5 121.5Q725 159 725 229Q725 293 688.5 328.0Q652 363 547 389L401 426Q236 467 162.0 543.5Q88 620 88 750Q88 923 208.0 1007.5Q328 1092 578 1092Q672 1092 778.5 1076.5Q885 1061 1014 1028V760H901Q892 869 823.5 924.0Q755 979 627 979Q519 979 463.5 944.5Q408 910 408 844Q408 790 440.0 759.0Q472 728 555 707L700 670Q909 617 989.0 539.0Q1069 461 1069 322Q1069 142 940.5 56.5Q812 -29 541 -29Q442 -29 331.0 -14.0Q220 1 96 31Z" fill="#541A1A"></path>
+    <path transform="translate(388.465,620) scale(0.042969,-0.042969)" d="M203 942H49V1063H203V1393H557V1063H852V942H557V291Q557 152 579.0 118.0Q601 84 659 84Q723 84 754.0 127.0Q785 170 787 260H936Q927 100 848.5 35.5Q770 -29 578 -29Q359 -29 281.0 39.5Q203 108 203 291Z" fill="#541A1A"></path>
+    <path transform="translate(430.113,620) scale(0.042969,-0.042969)" d="M1087 729Q1176 716 1237.0 670.0Q1298 624 1343 537L1561 121H1714V0H1223L985 451Q916 591 867.5 629.5Q819 668 733 668H672V121H864V0H96V121H287V1372H96V1493H948Q1208 1493 1349.5 1388.5Q1491 1284 1491 1092Q1491 936 1390.5 845.5Q1290 755 1087 729ZM672 788H803Q943 788 1018.5 864.0Q1094 940 1094 1081Q1094 1222 1018.5 1297.0Q943 1372 803 1372H672Z" fill="#810B38"></path>
+  </g>
+
+  <polygon points="340,0 680,196 680,589 340,785 0,589 0,196" fill="none" stroke="#810B38" stroke-width="10"></polygon>
+  <polygon points="340,30 650,210 650,575 340,755 30,575 30,210" fill="none" stroke="#541A1A" stroke-width="2" opacity="0.2"></polygon>
+
+  </g></svg>
