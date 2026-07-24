@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/CoDe-Neuro/ptestR/blob/v0.1.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/CoDe-Neuro/ptestR/blob/main/DESCRIPTION)
 
 França L, Ge Y, Batalle D (2026). *ptestR: Permutation-Based
 Significance Testing for Regression Models*. R package version 0.1.1,
